@@ -29,6 +29,30 @@ public class EmployeeDetails implements Serializable{
 	private String employeeName;
 	private String employeeDesignation;
 	private LocalDate joiningDate;
+	public Long getEmployeeId() {
+		return employeeId;
+	}
+	public void setEmployeeId(Long employeeId) {
+		this.employeeId = employeeId;
+	}
+	public String getEmployeeName() {
+		return employeeName;
+	}
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+	public String getEmployeeDesignation() {
+		return employeeDesignation;
+	}
+	public void setEmployeeDesignation(String employeeDesignation) {
+		this.employeeDesignation = employeeDesignation;
+	}
+	public LocalDate getJoiningDate() {
+		return joiningDate;
+	}
+	public void setJoiningDate(LocalDate joiningDate) {
+		this.joiningDate = joiningDate;
+	}
 
 
 	

@@ -34,7 +34,7 @@ public class ParkingServiceImpl implements ParkingService {
 	@Override
 	public ResponseEntity<String> parkingAllocation(Long employeeId) {
 
-		if (employeeDetailsRepository.findById(employeeId).isPresent())
+		if (!employeeDetailsRepository.findById(employeeId).isPresent())
 			throw new EmployeeException("employee not existed");
 
 		List<ParkingSpots> parkingSpotsFree = parkingSpotsRepository.freeParkingSpots();
@@ -53,6 +53,56 @@ public class ParkingServiceImpl implements ParkingService {
 	@Override
 	public ResponseEntity<String> parkingRequest(Long employeeId, LocalDate toDate, LocalDate fromDate) {
 
+
+
+		Optional<EmployeeDetails> employeeDetails=employeeDetailsRepository.findById(employeeId);
+		if (!employeeDetails.isPresent())
+			throw new EmployeeException("employee not existed");
+		
+		Optional<ParkingSpots> parkingSpots = parkingSpotsRepository.getParkingSpots(employeeId);
+		if(parkingSpots.isPresent())
+			throw new EmployeeException("parking already existed spot= "+parkingSpots.get().getParkingName());
+			
+		
+		//iterare the freedates from date to todate
+		long numOfDaysBetween = ChronoUnit.DAYS.between(fromDate, toDate);
+		 List<LocalDate> freeDates = IntStream.iterate(0, i -> i + 1).limit(numOfDaysBetween).mapToObj(i -> fromDate.plusDays(i))
+				.collect(Collectors.toList());
+		 ParkingAllocation  parkingAllocation=new ParkingAllocation();
+		 
+		 
+		 
+		 for(LocalDate freeDate: freeDates) {
+			 
+			 List<ParkingAllocation> freeEmployeeAllocation = parkingAllocationReposiory.emptyEmploayeeData(freeDate);
+			 
+			
+			 
+			if( freeEmployeeAllocation.isEmpty()) {
+			 
+			 parkingAllocation.setParkingAvailaleDate(freeDate);
+			 parkingAllocation.setEmployeeDetails(employeeDetails.get());
+			}
+			else {
+				freeEmployeeAllocation.get(0).setEmployeeDetails(employeeDetails.get());
+			}
+			 parkingAllocationReposiory.save(parkingAllocation);
+			 
+		 }
+ 		return ResponseEntity.ok().body("updated succsesfuly");
+
+	
+	
+		
+		
+		
+	}
+
+	@Override
+	public ResponseEntity<String> parkingRelease(Long employeeId, LocalDate toDate, LocalDate fromDate) {
+
+
+
 		if (employeeDetailsRepository.findById(employeeId).isPresent())
 			throw new EmployeeException("employee not existed");
 		
@@ -69,19 +119,23 @@ public class ParkingServiceImpl implements ParkingService {
 		 
 		 
 		 for(LocalDate freeDate: freeDates) {
+			 
+			 List<ParkingAllocation> freeparkingAllocation = parkingAllocationReposiory.emptyParkingData(freeDate);
+			 
+			if( freeparkingAllocation.isEmpty()) {
+			 
 			 parkingAllocation.setParkingAvailaleDate(freeDate);
 			 parkingAllocation.setParkingSpots(parkingSpots.get());
+			}
+			else {
+				freeparkingAllocation.get(0).setParkingSpots(parkingSpots.get());
+			}
 			 parkingAllocationReposiory.save(parkingAllocation);
 			 
 		 }
  		return ResponseEntity.ok().body("updated succsesfuly");
 
-	}
-
-	@Override
-	public ResponseEntity<String> parkingRelease(Long employeeId, LocalDate toDate, LocalDate fromDate) {
-
-		return null;
+	
 	}
 
 	@Override

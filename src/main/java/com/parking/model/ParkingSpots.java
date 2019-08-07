@@ -23,4 +23,32 @@ public class ParkingSpots {
 
 	@OneToOne @JoinColumn(name = "employeeId")
 	EmployeeDetails employeeDetails;
+
+	public Long getParkingId() {
+		return parkingId;
+	}
+
+	public void setParkingId(Long parkingId) {
+		this.parkingId = parkingId;
+	}
+
+	public Long getParkingName() {
+		return parkingName;
+	}
+
+	public void setParkingName(Long parkingName) {
+		this.parkingName = parkingName;
+	}
+
+	public EmployeeDetails getEmployeeDetails() {
+		return employeeDetails;
+	}
+
+	public void setEmployeeDetails(EmployeeDetails employeeDetails) {
+		this.employeeDetails = employeeDetails;
+	}
+	
+	
+	
+	
 }

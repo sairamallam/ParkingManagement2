@@ -34,4 +34,45 @@ public class ParkingAllocation {
 	@JoinColumn(name = "parkingId")
 	ParkingSpots parkingSpots;
 
+
+	public Long getParkingAllocationId() {
+		return parkingAllocationId;
+	}
+
+
+	public void setParkingAllocationId(Long parkingAllocationId) {
+		this.parkingAllocationId = parkingAllocationId;
+	}
+
+
+	public LocalDate getParkingAvailaleDate() {
+		return parkingAvailaleDate;
+	}
+
+
+	public void setParkingAvailaleDate(LocalDate parkingAvailaleDate) {
+		this.parkingAvailaleDate = parkingAvailaleDate;
+	}
+
+
+	public EmployeeDetails getEmployeeDetails() {
+		return employeeDetails;
+	}
+
+
+	public void setEmployeeDetails(EmployeeDetails employeeDetails) {
+		this.employeeDetails = employeeDetails;
+	}
+
+
+	public ParkingSpots getParkingSpots() {
+		return parkingSpots;
+	}
+
+
+	public void setParkingSpots(ParkingSpots parkingSpots) {
+		this.parkingSpots = parkingSpots;
+	}
+
+	
 }
